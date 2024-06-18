@@ -1,5 +1,6 @@
 import { useInView } from "react-intersection-observer";
 import { TestimonialApp } from "./TestimonialApp";
+import { useState, useEffect } from "react";
 
 const coments = [
   {
@@ -50,18 +51,25 @@ const coments = [
 ];
 
 export const TestimonalsCardApp = () => {
-  const { ref, inView } = useInView({});
+  const { ref, inView } = useInView();
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  useEffect(() => {
+    if (inView && !hasAnimated) {
+      setHasAnimated(true);
+    }
+  }, [inView, hasAnimated]);
 
 
   return (
-    <div ref={ ref } className={ `animate__animated ${inView ? 'animate__zoomIn' : null}` }>
+    <div ref={ ref } className={`animate__animated ${hasAnimated ? 'animate__zoomIn' : ''}`}>
       <div className='text-white text-center mt-32 mb-12'>
-        <h2 className=' font-bold text-5xl'>Testimonales</h2>
+        <h2 className='font-bold text-5xl'>Testimonales</h2>
         <p className='text-white font-normal text-lg mt-2'>Aquí hay algunos testimoniales de nuestros clientes</p>
       </div>
       <div className='flex flex-wrap gap-8 py-4 px-2 justify-center'>
-        {coments.map( (coment, index) => (
-          <TestimonialApp coment={coment.coment} date={coment.date} stars={coment.stars} user={coment.user} key={ index }/>
+        {coments.map((coment, index) => (
+          <TestimonialApp coment={coment.coment} date={coment.date} stars={coment.stars} user={coment.user} key={index} />
         ))}
       </div>
     </div>
