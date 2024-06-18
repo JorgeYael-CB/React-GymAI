@@ -1,2 +1,2 @@
 export * from './Hero/HeroApp';
-export * from '../components/testimonals/RatingApp';
+export * from './footer/FooterApp';

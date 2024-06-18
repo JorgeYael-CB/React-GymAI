@@ -1,5 +1,6 @@
 
 
 export const envs = {
-  apiUrl: ''
+  apiUrl: '',
+  empresaName: import.meta.env.VITE_NAME
 }

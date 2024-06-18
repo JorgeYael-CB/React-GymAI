@@ -55,7 +55,7 @@ export const TestimonalsCardApp = () => {
 
   return (
     <div ref={ ref } className={ `animate__animated ${inView ? 'animate__zoomIn' : null}` }>
-      <div className='text-white text-center mt-20 mb-12'>
+      <div className='text-white text-center mt-32 mb-12'>
         <h2 className=' font-bold text-5xl'>Testimonales</h2>
         <p className='text-white font-normal text-lg mt-2'>Aquí hay algunos testimoniales de nuestros clientes</p>
       </div>
