@@ -1,4 +1,5 @@
 import { HeroApp, RatingApp } from '../../layouts';
+import { TestimonalsCardApp } from '../../components/testimonals/TestimonalsCardApp';
 
 
 export const HomeApp = () => {
@@ -6,6 +7,7 @@ export const HomeApp = () => {
     <>
       <HeroApp/>
       <RatingApp/>
+      <TestimonalsCardApp/>
     </>
   )
 }

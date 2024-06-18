@@ -1,2 +1,2 @@
 export * from './Hero/HeroApp';
-export * from './testimonals/RatingApp';
+export * from '../components/testimonals/RatingApp';
