@@ -1,5 +1,5 @@
-import { HeroApp } from "../../layouts/Hero/HeroApp"
-import { RatingApp } from "../../layouts/testimonals/RatingApp"
+import { HeroApp, RatingApp } from '../../layouts';
+
 
 export const HomeApp = () => {
   return (
