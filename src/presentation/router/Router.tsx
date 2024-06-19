@@ -29,7 +29,7 @@ export const menuRoutes = [
     title: "Soporte",
     component: <SupportApp />
   },
-]
+];
 
 
 export const router = createBrowserRouter([

@@ -6,7 +6,7 @@ export const NavBarApp = () => {
   return (
     <>
       <div
-        className={`fixed top-0 left-0 w-full py-5 border border-gray-800 text-white px-8 flex flex-row justify-around backdrop-blur-md items-center transition-all shadow-md z-50`}
+        className={`fixed top-0 left-0 w-full py-4 border border-gray-800 text-white px-8 flex flex-row justify-around backdrop-blur-md items-center transition-all shadow-md z-50`}
       >
         <nav className="flex gap-4 items-center">
           {menuRoutes.map(route => (
@@ -30,9 +30,7 @@ export const NavBarApp = () => {
       </div>
 
       {/* Muestra los elementos hijos y añade margen superior para evitar que se oculten detrás del navbar */}
-      <div className="pt-16">
-        <Outlet />
-      </div>
+      <Outlet />
     </>
   );
 };
