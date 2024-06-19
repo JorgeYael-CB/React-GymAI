@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { RatingApp, TestimonalsCardApp } from '../../components';
-import { FooterApp, HeroApp } from '../../layouts';
+import { HeroApp } from '../../layouts';
 
 
 export const HomeApp = () => {

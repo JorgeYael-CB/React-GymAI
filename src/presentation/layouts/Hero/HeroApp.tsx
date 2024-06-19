@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 export const HeroApp = () => {
 
   return (
-    <div className="animate__animated animate__fadeInLeft text-white grid lg:grid-cols-2 grid-cols-1 gap-12 lg:px-56 py-40 mt-12 items-center">
+    <div className="animate__animated animate__fadeIn text-white grid lg:grid-cols-2 grid-cols-1 gap-12 lg:px-56 py-40 mt-12 items-center">
       <div className='flex flex-col gap-12'>
         <div>
           <h1 className="font-bold text-7xl lg:text-left text-center">{ envs.empresaName }<span className='text-xl'>GPT-4o</span></h1>
