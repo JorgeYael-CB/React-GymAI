@@ -21,8 +21,6 @@ export const HomeApp = () => {
         <div>
         </div>
       </div>
-
-      <FooterApp/>
     </>
   )
 }

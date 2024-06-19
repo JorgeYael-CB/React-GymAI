@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { menuRoutes } from "../../router/Router";
 import { NavLinkApp } from "./NavLinkApp";
+import { FooterApp } from "../footer/FooterApp";
 
 export const NavBarApp = () => {
   return (
@@ -30,7 +31,11 @@ export const NavBarApp = () => {
       </div>
 
       {/* Muestra los elementos hijos y añade margen superior para evitar que se oculten detrás del navbar */}
-      <Outlet />
+      <div className='mb-40'>
+        <Outlet />
+      </div>
+
+      <FooterApp/>
     </>
   );
 };
