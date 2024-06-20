@@ -57,6 +57,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }): ReactElemen
 
   const logout = () => {
     localStorage.removeItem(storageName);
+    window.location.reload();
   };
 
   return (

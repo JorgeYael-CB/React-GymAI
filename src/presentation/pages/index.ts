@@ -5,3 +5,4 @@ export * from './Home/HomeApp';
 export * from './services/PaymentsApp';
 export * from './services/ServicesApp';
 export * from './terms/TermsApp';
+export * from './auth/AccesAuth';

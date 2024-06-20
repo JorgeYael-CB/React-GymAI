@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../auth";
 
 export const NavBarApp = () => {
-  const { isLogged } = useContext(AuthContext);
+  const { isLogged, logout } = useContext( AuthContext );
 
   return (
     <>
@@ -23,17 +23,17 @@ export const NavBarApp = () => {
             isLogged
             ? <>
               <NavLink
-                className={`font-medium text-lg transition-all bg-gray-700 text-white px-2 py-1 rounded-md`}
-                to="/auth/login"
-              >
-                Logout
-              </NavLink>
-              <NavLink
-                className="font-medium text-lg bg-gray-200 text-black rounded-md px-4 py-1"
-                to="/auth/register"
+                className={`font-medium text-lg transition-all bg-gray-700 text-white px-4 py-1 rounded-md`}
+                to="/auth/dashboard"
               >
                 Panel
               </NavLink>
+              <button
+                onClick={ logout }
+                className='text-black bg-white px-4 py-1 font-medium rounded-md'
+              >
+                Logout
+              </button>
             </>
             :<>
               <NavLink

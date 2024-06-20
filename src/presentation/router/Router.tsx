@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { HomeApp, LoginApp, PaymentsApp, RegisterApp, ServicesApp, SupportApp, TermsApp } from "../pages";
+import { AccesAuth, HomeApp, LoginApp, PaymentsApp, RegisterApp, ServicesApp, SupportApp, TermsApp } from "../pages";
 import { NavBarApp } from "../layouts";
 
 
@@ -45,6 +45,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/auth',
+    element: <AccesAuth/>,
     children: [
       {
         path: 'login',
