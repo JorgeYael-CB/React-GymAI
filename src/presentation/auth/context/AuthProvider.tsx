@@ -1,46 +1,53 @@
-import { createContext, useContext, useState, ReactNode, ReactElement } from "react";
+import { createContext, useContext, useState, ReactNode, ReactElement, useEffect } from "react";
+import { UserDbInterface } from "../../interfaces";
+
+
+const storageName = 'SportAI';
 
 interface AuthContextType {
   isLogged: boolean;
-  token: string;
-  data: userData;
+  token?: string;
+  data?: UserDbInterface;
   login: (token: string, userData: any) => void;
   logout: () => void;
 }
 
-interface userData {
-  email: string;
-  name: string;
-  id: string;
-  roles: string[];
-  verify: boolean;
-  isActive: boolean;
-  totalAmountPaid: number;
+const getValue = ():AuthContextType => {
+  const value = localStorage.getItem(storageName);
+
+  const data = value? JSON.parse( value ) : {
+    isLogged: false,
+    token: '',
+    data: {
+      email: '',
+      name: '',
+      id: '',
+      roles: [],
+      isVerify: false,
+      isActive: false,
+      totalAmountPaid: 0,
+      coments: [],
+      date: new Date(),
+      messages: [],
+    },
+  };
+
+  return {...data, login:() => {}, logout: () =>{} }
 }
 
-const defaultAuthContext: AuthContextType = {
-  isLogged: false,
-  token: '',
-  data: {
-    email: '',
-    name: '',
-    id: '',
-    roles: [],
-    verify: false,
-    isActive: false,
-    totalAmountPaid: 0,
-  },
-  login: () => {},
-  logout: () => {},
-};
-
-const AuthContext = createContext<AuthContextType>(defaultAuthContext);
+export const AuthContext = createContext<AuthContextType>(getValue());
 
 
 export const AuthProvider = ({ children }: { children: ReactNode }): ReactElement => {
-  const [authState, setAuthState] = useState<Omit<AuthContextType, 'login' | 'logout'>>(defaultAuthContext);
+  const [authState, setAuthState] = useState<Omit<AuthContextType, 'login' | 'logout'>>(getValue());
 
-  const login = (token: string, userData: userData) => {
+
+  useEffect(() => {
+    localStorage.setItem(storageName, JSON.stringify(authState));
+  }, [authState]);
+
+
+  const login = (token: string, userData: UserDbInterface) => {
     setAuthState({
       isLogged: true,
       token,
@@ -49,7 +56,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }): ReactElemen
   };
 
   const logout = () => {
-    setAuthState(defaultAuthContext);
+    localStorage.removeItem(storageName);
   };
 
   return (

@@ -1,21 +1,25 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react"
-import { NavLink } from "react-router-dom"
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react"
+import { NavLink, useNavigate } from "react-router-dom"
 import { AlertFormApp } from "../../components";
 import { ValidateData } from "../../../config";
+import { LoginUserUseCase } from "../../../core";
+import { AuthContext } from "../../auth";
 
 
 export const LoginApp = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { login } = useContext( AuthContext );
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [emailError, SetEmailError] = useState<string>();
   const [password, setPassword] = useState<string>('');
   const [passwordError, SetPasswordError] = useState<string>();
   const [validSend, setValidSend] = useState(false);
+  const [errorHttp, setErrorHttp] = useState<string>();
+  const navigate = useNavigate();
 
 
   useEffect(() => {
     setValidSend(!emailError && !passwordError && email !== '' && password !== '');
-    console.log({emailError, passwordError})
   }, [emailError, passwordError, email, password]);
 
 
@@ -39,10 +43,23 @@ export const LoginApp = () => {
   };
 
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('click')
-    // TODO: hacer la peticion HTTP siempre que pase las validaciones de los textos
+    if( !validSend || isLoading ) return;
+
+    setIsLoading(true);
+    const data = await LoginUserUseCase(email, password);
+    setPassword('');
+
+    if( data.error ){
+      setIsLoading(false);
+      return setErrorHttp(data.error);
+    }
+
+    setIsLoading(false);
+    setErrorHttp(undefined);
+    login( data.token!, data.user );
+    navigate('/');
   }
 
 
@@ -59,6 +76,12 @@ export const LoginApp = () => {
       >
         <h2 className='text-center font-medium text-3xl'>Bienvenido de nuevo!</h2>
         <p className='text-center mb-12'>Inicia sesión para acceder a tu asistente virtual</p>
+
+        {
+          errorHttp
+          &&
+          <AlertFormApp content={errorHttp} error/>
+        }
 
         <div className='flex flex-col gap-1 text-black mb-4'>
           <label className='font-medium' htmlFor='email'>Email</label>
@@ -82,7 +105,7 @@ export const LoginApp = () => {
 
         <div className='flex justify-center'>
           <button
-            disabled={ !validSend }
+            disabled={ !validSend || isLoading }
             className='w-full rounded-md bg-black text-white my-7 py-1.5 px-2 disabled:opacity-50'
           >Iniciar Sesión
           </button>

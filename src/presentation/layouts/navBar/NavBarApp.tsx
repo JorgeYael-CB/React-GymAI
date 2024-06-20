@@ -2,8 +2,12 @@ import { NavLink, Outlet } from "react-router-dom";
 import { menuRoutes } from "../../router/Router";
 import { NavLinkApp } from "./NavLinkApp";
 import { FooterApp } from "../footer/FooterApp";
+import { useContext } from "react";
+import { AuthContext } from "../../auth";
 
 export const NavBarApp = () => {
+  const { isLogged } = useContext(AuthContext);
+
   return (
     <>
       <div
@@ -15,18 +19,37 @@ export const NavBarApp = () => {
           ))}
         </nav>
         <nav className="flex gap-2 items-center">
-          <NavLink
-            className={`font-medium text-lg transition-all bg-gray-200 text-black px-2 py-1 rounded-sm`}
-            to="/auth/login"
-          >
-            Iniciar sesión
-          </NavLink>
-          <NavLink
-            className="font-medium text-lg bg-gray-200 text-black rounded-sm px-4 py-1"
-            to="/auth/register"
-          >
-            Empezar
-          </NavLink>
+          {
+            isLogged
+            ? <>
+              <NavLink
+                className={`font-medium text-lg transition-all bg-gray-700 text-white px-2 py-1 rounded-md`}
+                to="/auth/login"
+              >
+                Logout
+              </NavLink>
+              <NavLink
+                className="font-medium text-lg bg-gray-200 text-black rounded-md px-4 py-1"
+                to="/auth/register"
+              >
+                Panel
+              </NavLink>
+            </>
+            :<>
+              <NavLink
+                className={`font-medium text-lg transition-all bg-gray-700 text-white px-2 py-1 rounded-md`}
+                to="/auth/login"
+              >
+                Iniciar sesión
+              </NavLink>
+              <NavLink
+                className="font-medium text-lg bg-gray-200 text-black rounded-md px-4 py-1"
+                to="/auth/register"
+              >
+                Empezar
+              </NavLink>
+            </>
+          }
         </nav>
       </div>
 
