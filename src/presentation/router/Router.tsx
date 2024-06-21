@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import { AccesAuth, AsistenteDashboardApp, ConfigDashboardApp, DashboardLayout, HomeApp, LoginApp, PaymentsApp, RegisterApp, ServicesApp, SportDashboardApp, SupportApp, TermsApp } from "../pages";
 import { NavBarApp } from "../layouts";
 import { ReactElement } from "react";
@@ -100,7 +100,11 @@ export const router = createBrowserRouter([
       ...menuDashboard.map( route => ({
         path: route.to,
         element: route.component,
-      }))
-    ]
+      })),
+      {
+        path: '',
+        element: <Navigate to={menuDashboard[0].to}/>
+      }
+    ],
   }
 ]);
