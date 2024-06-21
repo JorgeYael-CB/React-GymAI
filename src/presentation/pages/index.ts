@@ -6,4 +6,8 @@ export * from './services/PaymentsApp';
 export * from './services/ServicesApp';
 export * from './terms/TermsApp';
 export * from './auth/AccesAuth';
-export * from './dashboard/DashboardApp';
+export * from './dashboard/DashboardLayoutApp';
+
+export * from './dashboard/AsistenteDashboardApp';
+export * from './dashboard/ConfigDashboardApp';
+export * from './dashboard/SportDashboardApp';

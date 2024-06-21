@@ -1,9 +1,21 @@
 import { createBrowserRouter } from "react-router-dom";
-import { AccesAuth, DashboardApp, HomeApp, LoginApp, PaymentsApp, RegisterApp, ServicesApp, SupportApp, TermsApp } from "../pages";
+import { AccesAuth, AsistenteDashboardApp, ConfigDashboardApp, DashboardLayout, HomeApp, LoginApp, PaymentsApp, RegisterApp, ServicesApp, SportDashboardApp, SupportApp, TermsApp } from "../pages";
 import { NavBarApp } from "../layouts";
+import { ReactElement } from "react";
 
 
-export const menuRoutes = [
+export interface Component {
+  to: string;
+  title: string;
+  component: ReactElement;
+}
+
+export interface ComponentDashboardInterface extends Component {
+  icon: string;
+  description: string;
+}
+
+export const menuRoutes:Component[] = [
   {
     to: "/",
     title: "Home",
@@ -29,6 +41,30 @@ export const menuRoutes = [
     title: "Soporte",
     component: <SupportApp />
   },
+];
+
+export const menuDashboard: ComponentDashboardInterface[] = [
+  {
+    component: <AsistenteDashboardApp/>,
+    description: 'Tú asistente virtual',
+    icon: 'fa-solid fa-user',
+    title: 'Asistente',
+    to: '/dashboard/assistant',
+  },
+  {
+    component: <SportDashboardApp/>,
+    description: 'Nueva rutina de entrenamiento',
+    icon: 'fa-solid fa-person-walking',
+    title: 'Sport',
+    to: '/dashboard/sport',
+  },
+  {
+    component: <ConfigDashboardApp/>,
+    description: 'Configuración',
+    icon: 'fa-solid fa-gear',
+    title: 'Ajustes',
+    to: '/dashboard/gear',
+  }
 ];
 
 
@@ -59,6 +95,12 @@ export const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <DashboardApp/>,
+    element: <DashboardLayout/>,
+    children: [
+      ...menuDashboard.map( route => ({
+        path: route.to,
+        element: route.component,
+      }))
+    ]
   }
 ]);
