@@ -8,7 +8,11 @@ const storageName = 'SportAI';
 interface AuthContextType {
   isLogged: boolean;
   token?: string;
-  data?: UserDbInterface;
+  data?: {
+    email: string,
+    name: string,
+    id: string,
+  };
   login: (token: string, userData: any) => void;
   logout: () => void;
 }
@@ -23,13 +27,6 @@ const getValue = ():AuthContextType => {
       email: '',
       name: '',
       id: '',
-      roles: [],
-      isVerify: false,
-      isActive: false,
-      totalAmountPaid: 0,
-      coments: [],
-      date: new Date(),
-      messages: [],
     },
   };
 
@@ -51,7 +48,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }): ReactElemen
     const obj = {
       isLogged: true,
       token,
-      data: userData,
+      data: {
+        email: userData.email,
+        id: userData.id,
+        name: userData.name,
+      },
     }
 
     setAuthState(obj);
