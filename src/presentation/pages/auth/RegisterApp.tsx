@@ -135,11 +135,11 @@ export const RegisterApp = () => {
 
         <div className='mt-5'>
           <p className='text-center text-sm font-medium'>
-            ¿No tienes una cuenta?
-            <NavLink className='underline text-blue-500' to='/auth/register'> Registrate</NavLink>
+            ¿Ya tienes una cuenta?
+            <NavLink className='underline text-blue-500' to='/auth/login'> Inicia sesión</NavLink>
           </p>
           <p className='text-center text-sm font-medium mt-2'>
-            Olvidaste tu contraseña?
+            ¿Olvidaste tu contraseña?
             <NavLink className='underline text-blue-500' to='/auth/forgot-password'> Restablece tu password</NavLink>
           </p>
         </div>

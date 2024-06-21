@@ -117,7 +117,7 @@ export const LoginApp = () => {
             <NavLink className='underline text-blue-500' to='/auth/register'> Registrate</NavLink>
           </p>
           <p className='text-center text-sm font-medium mt-2'>
-            Olvidaste tu contraseña?
+            ¿Olvidaste tu contraseña?
             <NavLink className='underline text-blue-500' to='/auth/forgot-password'> Restablece tu password</NavLink>
           </p>
         </div>
