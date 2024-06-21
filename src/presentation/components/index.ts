@@ -5,3 +5,4 @@ export * from './chat-bubble/GptMessage';
 export * from './chat-bubble/MyMessage';
 export * from './loaders/TypingLoader';
 export * from './chat-inputs/TextMessageBox';
+export * from './modals/ModalLogin';
