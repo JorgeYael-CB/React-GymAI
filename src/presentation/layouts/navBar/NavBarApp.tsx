@@ -23,8 +23,8 @@ export const NavBarApp = () => {
             isLogged
             ? <>
               <NavLink
-                className={`font-medium text-lg transition-all bg-gray-700 text-white px-4 py-1 rounded-md`}
-                to="/auth/dashboard"
+                className={`font-medium text-lg transition-all bg-blue-700 text-white px-4 py-1 rounded-md`}
+                to="/dashboard"
               >
                 Panel
               </NavLink>
@@ -32,7 +32,7 @@ export const NavBarApp = () => {
                 onClick={ logout }
                 className='text-black bg-white px-4 py-1 font-medium rounded-md'
               >
-                Logout
+                Cerrar sesión
               </button>
             </>
             :<>

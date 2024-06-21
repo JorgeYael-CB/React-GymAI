@@ -71,7 +71,7 @@ export const RegisterApp = () => {
     setIsLoading(false);
     setErrorHttp(undefined);
     login( data.token!, data.user );
-    navigate('/');
+    navigate('/dashboard');
   }
 
 

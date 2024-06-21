@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { AccesAuth, HomeApp, LoginApp, PaymentsApp, RegisterApp, ServicesApp, SupportApp, TermsApp } from "../pages";
+import { AccesAuth, DashboardApp, HomeApp, LoginApp, PaymentsApp, RegisterApp, ServicesApp, SupportApp, TermsApp } from "../pages";
 import { NavBarApp } from "../layouts";
 
 
@@ -57,4 +57,8 @@ export const router = createBrowserRouter([
       },
     ]
   },
+  {
+    path: '/dashboard',
+    element: <DashboardApp/>,
+  }
 ]);
