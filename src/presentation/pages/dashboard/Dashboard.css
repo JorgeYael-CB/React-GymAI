@@ -1,0 +1,54 @@
+
+.dashboard {
+  background-color: #000000;
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+}
+
+
+.dashboard h1 {
+  @apply text-3xl font-bold mb-4;
+}
+
+.dashboard p {
+  @apply mb-4;
+}
+
+.dashboard ul {
+  @apply list-disc list-inside;
+}
+
+.dashboard strong {
+  @apply font-bold text-indigo-400;
+}
+
+.dashboard em {
+  @apply italic text-pink-500;
+}
+
+
+.dashboard .btn-primary {
+  @apply bg-indigo-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-indigo-700 transition-all duration-200 ease-in-out;
+}
+
+.dashboard .btn-primary:disabled {
+  @apply bg-indigo-500 text-white font-bold py-2 px-4 rounded-xl opacity-50 cursor-not-allowed;
+}
+
+.dashboard .chat-container {
+  @apply flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-white bg-opacity-5 h-full p-4;
+}
+
+.dashboard .chat-messages {
+  @apply flex flex-col h-full overflow-x-auto mb-4 overflow-scroll;
+}
+
+
+/* Animations */
+
+.dashboard .fade-in { animation: fadeIn .3s; }
+
+.dashboard @keyframes fadeIn {
+  .dashboard 0% { opacity: 0; }
+  .dashboard 100% { opacity: 1; }
+}
