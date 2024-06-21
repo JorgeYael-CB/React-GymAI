@@ -1,5 +1,5 @@
-import { envs } from "../../config";
-import { LoginUserInterface } from "../../presentation/interfaces";
+import { envs } from "../../../config";
+import { LoginUserInterface } from "../../../presentation/interfaces";
 
 
 

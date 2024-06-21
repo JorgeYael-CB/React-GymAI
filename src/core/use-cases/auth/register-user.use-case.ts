@@ -1,5 +1,5 @@
-import { envs } from "../../config";
-import { RegisterUserInterface } from "../../presentation/interfaces";
+import { envs } from "../../../config";
+import { RegisterUserInterface } from "../../../presentation/interfaces";
 
 
 export const RegisterUserUseCase = async( name: string, email: string, password: string ):Promise<RegisterUserInterface> => {

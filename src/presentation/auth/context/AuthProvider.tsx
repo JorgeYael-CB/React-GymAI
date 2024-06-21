@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode, ReactElement, useEffect } from "react";
 import { UserDbInterface } from "../../interfaces";
+import { VerifyTokenUseCase } from "../../../core";
 
 
 const storageName = 'SportAI';
@@ -32,7 +33,11 @@ const getValue = ():AuthContextType => {
     },
   };
 
-  return {...data, login:() => {}, logout: () =>{} }
+  return {
+    ...data,
+    login:() => {},
+    logout: () => {},
+  }
 }
 
 export const AuthContext = createContext<AuthContextType>(getValue());
@@ -42,17 +47,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }): ReactElemen
   const [authState, setAuthState] = useState<Omit<AuthContextType, 'login' | 'logout'>>(getValue());
 
 
-  useEffect(() => {
-    localStorage.setItem(storageName, JSON.stringify(authState));
-  }, [authState]);
-
-
   const login = (token: string, userData: UserDbInterface) => {
-    setAuthState({
+    const obj = {
       isLogged: true,
       token,
       data: userData,
-    });
+    }
+
+    setAuthState(obj);
+    localStorage.setItem(storageName, JSON.stringify(obj));
   };
 
   const logout = () => {
@@ -60,9 +63,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }): ReactElemen
     window.location.reload();
   };
 
+
+  const validateJwt = async () => {
+    if( authState.isLogged && authState.token && authState.token.trim() !== '' ){
+      const data = await VerifyTokenUseCase({token: authState.token!});
+
+      if(data.status === 401){
+        logout();
+      }
+    }
+  }
+
+  useEffect(() => {
+    validateJwt();
+  }, [ authState ]);
+
+
   return (
     <AuthContext.Provider value={{ ...authState, login, logout }}>
-      {children}
+      { children }
     </AuthContext.Provider>
   );
 };
