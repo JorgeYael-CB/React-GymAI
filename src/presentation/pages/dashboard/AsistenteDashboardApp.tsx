@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GptMessage, MyMessage, TextMessageBox, TyPingLoader } from "../../components";
 import { AuthContext } from "../../auth";
 
@@ -14,6 +14,11 @@ export const AsistenteDashboardApp = () => {
   const {} = useContext( AuthContext );
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
+
+
+  useEffect(() => {
+    // TODO: http - solicitar los últimos 10 mensajes
+  }, []);
 
 
   const handlePost = async( text:string ) => {
@@ -36,13 +41,13 @@ export const AsistenteDashboardApp = () => {
         <div className="grid grid-cols-12 gap-y-2">
 
           {/* TODO: iterar sobre los mensajes enviados anteriormente (obtener los últimos 10) */}
-          <GptMessage text={`Aquí van los mensajes enviados anteriormente`}/>
+          <GptMessage text={`Bienvenido de nuevo!`}/>
 
           {
             messages.map( (message, index) => (
               message.isGpt
                 ?
-              (<GptMessage key={index} text={"Esto es de OpenAI"}/>)
+              (<GptMessage key={index} text={message.text}/>)
                 :
               (<MyMessage key={index} text={`${message.text}`}/>)
             ))
@@ -62,7 +67,8 @@ export const AsistenteDashboardApp = () => {
       <TextMessageBox
         onSendMessage={ handlePost }
         placeholder={"Escibe lo que deseas traducir"}
-        disabledCorrection
+        disabled={isLoading}
+        // disabledCorrection
       />
     </div>
   )

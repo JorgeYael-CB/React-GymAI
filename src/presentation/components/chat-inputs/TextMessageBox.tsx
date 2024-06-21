@@ -4,16 +4,17 @@ interface Props {
   onSendMessage: ( message:string ) => void;
   placeholder?:string;
   disabledCorrection?:boolean;
+  disabled?: boolean
 }
 
 
-export const TextMessageBox = ( {onSendMessage, disabledCorrection = false, placeholder = ''}: Props ) => {
+export const TextMessageBox = ( {onSendMessage, disabledCorrection = false, placeholder = '', disabled}: Props ) => {
   const [message, setMessage] = useState('');
 
 
   const handleMessage = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if( message.trim().length <= 0 ) return;
+    if( message.trim().length <= 0 || disabled ) return;
 
     onSendMessage( message );
     setMessage('');
@@ -44,7 +45,7 @@ export const TextMessageBox = ( {onSendMessage, disabledCorrection = false, plac
     </div>
 
     <div className="ml-4">
-      <button className="btn-primary">
+      <button disabled={ disabled } className="btn-primary">
         <span className="mr-2">Enviar</span>
         <i className="fa-regular fa-paper-plane"></i>
       </button>
