@@ -24,7 +24,7 @@ export const LoginApp = () => {
 
 
   const onChangeEmail = ( e: ChangeEvent<HTMLInputElement> ) => {
-    setEmail(e.target.value.trim());
+    setEmail(e.target.value);
 
     const [mailerError, _] = ValidateData.email(e.target.value);
     if( mailerError ) return SetEmailError(mailerError);
@@ -34,7 +34,7 @@ export const LoginApp = () => {
 
 
   const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value.trim());
+    setPassword(e.target.value);
 
     const [passError, _] = ValidateData.password(e.target.value);
     if( passError ) return SetPasswordError(passError);

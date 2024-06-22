@@ -77,7 +77,7 @@ export const AsistenteDashboardApp = () => {
 
         <TextMessageBox
           onSendMessage={ handlePost }
-          placeholder={"Escibe lo que deseas traducir"}
+          placeholder={'Envía un mensaje a tú asistente virtual'}
           disabled={isLoading}
           // disabledCorrection
         />

@@ -26,7 +26,7 @@ export const RegisterApp = () => {
 
 
   const onChangeEmail = ( e: ChangeEvent<HTMLInputElement> ) => {
-    setEmail(e.target.value.trim());
+    setEmail(e.target.value);
 
     const [mailerError, _] = ValidateData.email(e.target.value);
     if( mailerError ) return SetEmailError(mailerError);
@@ -35,7 +35,7 @@ export const RegisterApp = () => {
   };
 
   const onChangeName = ( e: ChangeEvent<HTMLInputElement> ) => {
-    setName(e.target.value.trim());
+    setName(e.target.value);
 
     if( !e.target.value || e.target.value.trim().length <= 5 ){
       return setNameError('name is too short!');
@@ -46,7 +46,7 @@ export const RegisterApp = () => {
 
 
   const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value.trim());
+    setPassword(e.target.value);
 
     const [passError, _] = ValidateData.password(e.target.value);
     if( passError ) return SetPasswordError(passError);
