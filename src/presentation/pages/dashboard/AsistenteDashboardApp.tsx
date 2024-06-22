@@ -13,7 +13,7 @@ interface Message {
 
 
 export const AsistenteDashboardApp = () => {
-  const { isLogged, token } = useContext(AuthContext);
+  const { isLogged, token, data } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [showModalLogin, setShowModalLogin] = useState(false);
@@ -22,7 +22,7 @@ export const AsistenteDashboardApp = () => {
 
 
   useEffect(() => {
-    // TODO: http - solicitar los últimos 10 mensajes
+    // TODO: http - solicitar los últimos 10 mensajes con su respuesta
   }, []);
 
 
@@ -71,7 +71,11 @@ export const AsistenteDashboardApp = () => {
           <div className="grid grid-cols-12 gap-y-2">
 
             {/* TODO: iterar sobre los mensajes enviados anteriormente (obtener los últimos 10) */}
-            <GptMessage text={`Bienvenido de nuevo!`}/>
+            <GptMessage
+              text={`${isLogged
+                ? `Hola, soy tu asitente de GYM AI, bienvenido de nuevo ${data!.name}, cuando realices una pregunta hazla lo más corta y breve posible para ayudarte de mejor manera :)`
+                : 'Para poder acceder a mandar mensajes debes iniciar sesión.'}`}
+            />
 
             {
               messages.map( (message, index) => (
@@ -79,7 +83,7 @@ export const AsistenteDashboardApp = () => {
                   ?
                 (<GptMessage key={index} text={message.text}/>)
                   :
-                (<MyMessage key={index} text={`${message.text}`}/>)
+                (<MyMessage image={ isLogged ? data!.name[0] : 'U' } key={index} text={`${message.text}`}/>)
               ))
             }
 
