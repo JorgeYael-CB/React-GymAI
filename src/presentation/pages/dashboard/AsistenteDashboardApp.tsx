@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AlertFormApp, GptMessage, ModalLogin, MyMessage, TextMessageBox, TyPingLoader } from "../../components";
 import { AuthContext } from "../../auth";
-import { SendMessageUseCase } from "../../../core";
+import { GetMessagesUseCase, SendMessageUseCase } from "../../../core";
 import { ModalPayment } from "../../components/modals/ModalPayment";
 
 
@@ -19,10 +19,26 @@ export const AsistenteDashboardApp = () => {
   const [showModalLogin, setShowModalLogin] = useState(false);
   const [showModalPayment, setShowModalPayment] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>();
+  const [isLoadingMessages, setIsLoadingMessages] = useState(true);
+  const [errorLoadingMessages, setErrorLoadingMessages] = useState<string>();
 
 
   useEffect(() => {
     // TODO: http - solicitar los últimos 10 mensajes con su respuesta
+    if( !isLogged ) return;
+    GetMessagesUseCase({token: token!})
+      .then( data => {
+        if( data.error ){
+          setErrorLoadingMessages(data.error);
+          return setIsLoadingMessages(false);
+        }
+
+        data.messages!.forEach( msg => {
+          setMessages( prevMessages => [...prevMessages, {isGpt: false, text:msg.content}] );
+          setMessages( prevMessages => [...prevMessages, {isGpt: true, text:msg.answer}] );
+        });
+        setIsLoadingMessages(false);
+      })
   }, []);
 
 
@@ -69,15 +85,9 @@ export const AsistenteDashboardApp = () => {
       <div className="chat-container">
         <div className="chat-messages">
           <div className="grid grid-cols-12 gap-y-2">
-
-            {/* TODO: iterar sobre los mensajes enviados anteriormente (obtener los últimos 10) */}
-            <GptMessage
-              text={`${isLogged
-                ? `Hola, soy tu asitente de GYM AI, bienvenido de nuevo ${data!.name}, cuando realices una pregunta hazla lo más corta y breve posible para ayudarte de mejor manera :)`
-                : 'Para poder acceder a mandar mensajes debes iniciar sesión.'}`}
-            />
-
             {
+              !isLoadingMessages
+              &&
               messages.map( (message, index) => (
                 message.isGpt
                   ?
@@ -85,6 +95,17 @@ export const AsistenteDashboardApp = () => {
                   :
                 (<MyMessage image={ isLogged ? data!.name[0] : 'U' } key={index} text={`${message.text}`}/>)
               ))
+            }
+
+            {/* TODO: iterar sobre los mensajes enviados anteriormente (obtener los últimos 10) */}
+            {
+              !isLoadingMessages
+              &&
+              <GptMessage
+              text={`${isLogged
+                ? `Hola ${data!.name}, soy tu asitente de GYM AI, cuando realices una pregunta hazla lo más corta y breve posible para ayudarte de mejor manera :)`
+                : 'Para poder acceder a mandar mensajes debes iniciar sesión.'}`}
+              />
             }
 
             {
@@ -97,6 +118,11 @@ export const AsistenteDashboardApp = () => {
 
           </div>
         </div>
+
+        {
+          errorLoadingMessages
+          && <AlertFormApp content={errorLoadingMessages} error/>
+        }
 
         {
           errorMessage

@@ -1,4 +1,3 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { router } from './presentation/router/Router'
@@ -8,8 +7,8 @@ import { AuthProvider } from './presentation/auth'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <AuthProvider>
-    <React.StrictMode>
+    {/* <React.StrictMode> */}
       <RouterProvider router={ router } />
-    </React.StrictMode>
+    {/* </React.StrictMode> */}
   </AuthProvider>
 )
