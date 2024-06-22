@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { GptMessage, ModalLogin, MyMessage, TextMessageBox, TyPingLoader } from "../../components";
+import { AlertFormApp, GptMessage, ModalLogin, MyMessage, TextMessageBox, TyPingLoader } from "../../components";
 import { AuthContext } from "../../auth";
+import { SendMessageUseCase } from "../../../core";
 
 
 
@@ -11,11 +12,11 @@ interface Message {
 
 
 export const AsistenteDashboardApp = () => {
-  const {} = useContext( AuthContext );
+  const { isLogged, token } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
-  const { isLogged } = useContext(AuthContext);
   const [showModalLogin, setShowModalLogin] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
 
 
   useEffect(() => {
@@ -32,11 +33,19 @@ export const AsistenteDashboardApp = () => {
     setIsLoading( true );
     setMessages( prevMessages => [...prevMessages, { isGpt: false, text }]);
 
-    // Todo: use-case
+    // TODO: use-case
+    const data = await SendMessageUseCase({message: text, token: token!});
 
-    setIsLoading(false);
+    if( data.error ){
+      setErrorMessage(data.error);
+      // todo: eliminar el último mensaje del arreglo y validar que no sea el token expirado, que tenga un USER_VIP
+      //You do not have access to this content
+      return setIsLoading(false);
+    };
 
     //TODO: añadir el mensaje de isGpt en true
+    setMessages( prevMessages => [...prevMessages, {isGpt: true, text: data.answer!}] );
+    setIsLoading(false);
   }
 
 
@@ -74,6 +83,11 @@ export const AsistenteDashboardApp = () => {
 
           </div>
         </div>
+
+        {
+          errorMessage
+          && <AlertFormApp content={errorMessage} error/>
+        }
 
         <TextMessageBox
           onSendMessage={ handlePost }
