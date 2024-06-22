@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AlertFormApp, GptMessage, ModalLogin, MyMessage, TextMessageBox, TyPingLoader } from "../../components";
 import { AuthContext } from "../../auth";
 import { GetMessagesUseCase, SendMessageUseCase } from "../../../core";
@@ -21,25 +21,32 @@ export const AsistenteDashboardApp = () => {
   const [errorMessage, setErrorMessage] = useState<string>();
   const [isLoadingMessages, setIsLoadingMessages] = useState(true);
   const [errorLoadingMessages, setErrorLoadingMessages] = useState<string>();
+  const bottomOfPanelRef = useRef<HTMLDivElement>( null );
 
 
   useEffect(() => {
     // TODO: http - solicitar los últimos 10 mensajes con su respuesta
-    if( !isLogged ) return;
+    if( !isLogged ) return setIsLoadingMessages(false);
+
     GetMessagesUseCase({token: token!})
       .then( data => {
+        setIsLoadingMessages(false);
         if( data.error ){
-          setErrorLoadingMessages(data.error);
-          return setIsLoadingMessages(false);
+          return setErrorLoadingMessages(data.error);
         }
 
         data.messages!.forEach( msg => {
           setMessages( prevMessages => [...prevMessages, {isGpt: false, text:msg.content}] );
           setMessages( prevMessages => [...prevMessages, {isGpt: true, text:msg.answer}] );
         });
-        setIsLoadingMessages(false);
       })
   }, []);
+
+  useEffect(() => {
+    if( bottomOfPanelRef && bottomOfPanelRef.current ){
+      bottomOfPanelRef.current!.scrollIntoView();
+    }
+  }, [messages])
 
 
   const handlePost = async( text:string ) => {
@@ -88,23 +95,27 @@ export const AsistenteDashboardApp = () => {
             {
               !isLoadingMessages
               &&
-              messages.map( (message, index) => (
-                message.isGpt
-                  ?
-                (<GptMessage key={index} text={message.text}/>)
-                  :
-                (<MyMessage image={ isLogged ? data!.name[0] : 'U' } key={index} text={`${message.text}`}/>)
-              ))
+              <>
+              {
+                messages.map( (message, index) => (
+                  message.isGpt
+                    ?
+                  (<GptMessage key={index} text={message.text}/>)
+                    :
+                  (<MyMessage image={ isLogged ? data!.name[0] : 'U' } key={index} text={`${message.text}`}/>)
+                ))
+              }
+                <div ref={ bottomOfPanelRef }></div>
+              </>
             }
 
-            {/* TODO: iterar sobre los mensajes enviados anteriormente (obtener los últimos 10) */}
             {
-              !isLoadingMessages
+              !isLoadingMessages &&  messages.length <= 0
               &&
               <GptMessage
-              text={`${isLogged
-                ? `Hola ${data!.name}, soy tu asitente de GYM AI, cuando realices una pregunta hazla lo más corta y breve posible para ayudarte de mejor manera :)`
-                : 'Para poder acceder a mandar mensajes debes iniciar sesión.'}`}
+                text={`${isLogged
+                  ? `Hola ${data!.name}, soy tu asitente de GYM AI, cuando realices una pregunta hazla lo más corta y breve posible para ayudarte de mejor manera :)`
+                  : 'Para poder acceder a mandar mensajes debes iniciar sesión.'}`}
               />
             }
 
