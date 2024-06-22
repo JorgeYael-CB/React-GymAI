@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AlertFormApp, GptMessage, ModalLogin, MyMessage, TextMessageBox, TyPingLoader } from "../../components";
 import { AuthContext } from "../../auth";
 import { SendMessageUseCase } from "../../../core";
+import { ModalPayment } from "../../components/modals/ModalPayment";
 
 
 
@@ -16,6 +17,7 @@ export const AsistenteDashboardApp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [showModalLogin, setShowModalLogin] = useState(false);
+  const [showModalPayment, setShowModalPayment] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>();
 
 
@@ -38,12 +40,13 @@ export const AsistenteDashboardApp = () => {
 
     if( data.error ){
       setErrorMessage(data.error);
-      // todo: eliminar el último mensaje del arreglo y validar que no sea el token expirado, que tenga un USER_VIP
-      //You do not have access to this content
+      setMessages(prevMessages => prevMessages.slice(0, -1));
+      if( data.error.includes('You do not have access to this content') ){
+        setShowModalPayment(true);
+      }
       return setIsLoading(false);
     };
 
-    //TODO: añadir el mensaje de isGpt en true
     setMessages( prevMessages => [...prevMessages, {isGpt: true, text: data.answer!}] );
     setIsLoading(false);
   }
@@ -56,6 +59,13 @@ export const AsistenteDashboardApp = () => {
         &&
         <ModalLogin onCloseModal={ setShowModalLogin } content='Para acceder a tu asistente virtual debes iniciar sesión o crear una cuenta'/>
       }
+
+      {
+        showModalPayment
+        &&
+        <ModalPayment onCloseModal={ setShowModalPayment }/>
+      }
+
       <div className="chat-container">
         <div className="chat-messages">
           <div className="grid grid-cols-12 gap-y-2">
