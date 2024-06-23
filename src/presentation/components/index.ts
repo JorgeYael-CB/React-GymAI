@@ -6,3 +6,4 @@ export * from './chat-bubble/MyMessage';
 export * from './loaders/TypingLoader';
 export * from './chat-inputs/TextMessageBox';
 export * from './modals/ModalLogin';
+export * from './loaders/LoaderForm.tsx';

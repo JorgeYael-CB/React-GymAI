@@ -1,4 +1,4 @@
-export type roles = 'USER' | 'SUPER_USER_BASIC' | 'SUPER_USER_PREMIUM' | 'SUPER_USER_ELITE' | 'ADMIN' | 'DEVELOPER';
+export type roles = 'ADMIN' | 'DEVELOPER' | 'USER' | 'USER_PREMIUM' | 'USER_VIP' | 'SUPER_USER';
 
 
 export interface UserDbInterface {
