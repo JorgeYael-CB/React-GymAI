@@ -47,7 +47,6 @@
 
 
 /* Animations */
-
 .dashboard .fade-in { animation: fadeIn .3s; }
 
 .dashboard @keyframes fadeIn {

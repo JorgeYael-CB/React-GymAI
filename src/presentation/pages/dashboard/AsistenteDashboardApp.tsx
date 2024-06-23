@@ -142,7 +142,7 @@ export const AsistenteDashboardApp = () => {
 
         <TextMessageBox
           onSendMessage={ handlePost }
-          placeholder={'Envía un mensaje a tú asistente virtual'}
+          placeholder={'Envía un mensaje a SPORT AI-4o'}
           disabled={isLoading}
           // disabledCorrection
         />

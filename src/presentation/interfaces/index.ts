@@ -6,3 +6,4 @@ export * from './auth/verify-token.interface';
 export * from './messages/send-message.interface';
 
 export * from './messages/get-messages.interface';
+export * from './auth/get-user.interface';

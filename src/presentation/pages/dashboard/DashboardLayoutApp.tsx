@@ -29,14 +29,14 @@ export const DashboardLayout = () => {
         }
       </nav>
 
-      <button className="lg:hidden fixed top-3 right-3 z-50 bg-indigo-500 text-white p-2 rounded-full" onClick={toggleMenu}>
+      <button className="lg:hidden fixed top-3 right-4 z-50 text-white text-3xl" onClick={toggleMenu}>
         {menuOpen
-          ? <i className="fa-solid fa-bars text-2xl"></i>
-          : <i className="fa-solid fa-circle-xmark text-2xl"></i>
+          ? <i className="fa-solid fa-circle-xmark"></i>
+          : <i className="fa-solid fa-bars"></i>
         }
       </button>
 
-      <section className={`mx-3 lg:mx-20 flex flex-col ${menuOpen ? 'hidden' : ''} sm:w-full h-[calc(100vh-50px)] bg-white bg-opacity-10 p-5 rounded-3xl`}>
+      <section className={`md:mx-3 lg:mx-20 flex flex-col ${menuOpen ? 'hidden' : ''} sm:w-full h-[calc(100vh-50px)] bg-white bg-opacity-10 md:p-5 py-5 rounded-3xl`}>
         <div className="flex flex-row h-full">
           <div className={`flex flex-col flex-auto h-full p-1`}>
             <Outlet />

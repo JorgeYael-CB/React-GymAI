@@ -2,14 +2,15 @@ export type roles = 'USER' | 'SUPER_USER_BASIC' | 'SUPER_USER_PREMIUM' | 'SUPER_
 
 
 export interface UserDbInterface {
+  id: string,
   name: string,
   email: string,
-  id: string,
   isVerify: boolean,
   isActive: boolean,
-  messages: [],
-  coments: [],
+  roles: roles[],
   date: Date,
-  roles: string[],
   totalAmountPaid: number,
+  messages: any[],
+  coments: any[],
+  limitMessage: number
 }
