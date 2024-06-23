@@ -29,8 +29,11 @@ export const DashboardLayout = () => {
         }
       </nav>
 
-      <button className="lg:hidden fixed top-4 right-4 z-50 bg-indigo-500 text-white p-3 rounded-full" onClick={toggleMenu}>
-        {menuOpen ? 'Cerrar' : 'Menú'}
+      <button className="lg:hidden fixed top-3 right-3 z-50 bg-indigo-500 text-white p-2 rounded-full" onClick={toggleMenu}>
+        {menuOpen
+          ? <i className="fa-solid fa-bars text-2xl"></i>
+          : <i className="fa-solid fa-circle-xmark text-2xl"></i>
+        }
       </button>
 
       <section className={`mx-3 lg:mx-20 flex flex-col ${menuOpen ? 'hidden' : ''} sm:w-full h-[calc(100vh-50px)] bg-white bg-opacity-10 p-5 rounded-3xl`}>
