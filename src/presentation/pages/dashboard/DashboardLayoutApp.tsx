@@ -1,17 +1,21 @@
-import {  Outlet, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { menuDashboard } from "../../router/Router";
 import { SidebarItem } from "./SideBarItem";
 import './Dashboard.css';
 
-
 export const DashboardLayout = () => {
   const nav = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   return (
-    <main className="flex flex-row mt-7 dashboard">
-      <nav className="hidden sm:flex flex-col ml-5 w-[370px] min-h-[calc(100vh-3.0rem)] bg-white bg-opacity-10 p-5 rounded-3xl">
-        <h1 onClick={ () => nav('/') } className="font-bold text-lg lg:text-3xl bg-gradient-to-br from-white via-white/50 bg-clip-text text-transparent hover:cursor-pointer">
+    <main className="flex flex-row mt-7 dashboard relative">
+      <nav className={`lg:flex flex-col ml-5 lg:w-[370px] min-h-[calc(100vh-3.0rem)] bg-white bg-opacity-10 p-5 rounded-3xl ${menuOpen ? 'flex w-full' : 'hidden'}`}>
+        <h1 onClick={() => nav('/')} className="font-bold text-lg lg:text-3xl bg-gradient-to-br from-white via-white/50 bg-clip-text text-transparent hover:cursor-pointer">
           Sport AI<span className="text-indigo-500">.</span>
         </h1>
         <span className="text-xl text-white mt-4">Bienvenido</span>
@@ -19,15 +23,19 @@ export const DashboardLayout = () => {
         <div className="border-gray-700 border my-3" />
         {/* Opciones del menú */}
         {
-          menuDashboard.map( opt => (
-            <SidebarItem key={opt.to} opt={opt}/>
+          menuDashboard.map(opt => (
+            <SidebarItem key={opt.to} opt={opt} />
           ))
         }
       </nav>
 
-      <section className="mx-3 sm:mx-20 flex flex-col w-full h-[calc(100vh-50px)]  bg-white bg-opacity-10 p-5 rounded-3xl">
+      <button className="lg:hidden fixed top-4 right-4 z-50 bg-indigo-500 text-white p-3 rounded-full" onClick={toggleMenu}>
+        {menuOpen ? 'Cerrar' : 'Menú'}
+      </button>
+
+      <section className={`mx-3 lg:mx-20 flex flex-col ${menuOpen ? 'hidden' : ''} sm:w-full h-[calc(100vh-50px)] bg-white bg-opacity-10 p-5 rounded-3xl`}>
         <div className="flex flex-row h-full">
-          <div className="flex flex-col flex-auto h-full p-1">
+          <div className={`flex flex-col flex-auto h-full p-1`}>
             <Outlet />
           </div>
         </div>
