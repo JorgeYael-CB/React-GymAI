@@ -29,7 +29,7 @@ export const DashboardLayout = () => {
         }
       </nav>
 
-      <button className="lg:hidden fixed top-3 right-4 z-50 text-white text-3xl" onClick={toggleMenu}>
+      <button className="lg:hidden fixed top-3 right-4 z-50 text-white text-3xl" onClick={ toggleMenu }>
         {menuOpen
           ? <i className="fa-solid fa-circle-xmark"></i>
           : <i className="fa-solid fa-bars"></i>

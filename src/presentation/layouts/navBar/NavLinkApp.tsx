@@ -13,8 +13,8 @@ export const NavLinkApp = ( { route }: {route: route} ) => {
     <NavLink
       key={route.to}
       className={({ isActive }) =>
-        `font-medium transition-all ${
-          !isActive ? 'opacity-60 text-lg' : 'opacity-100 text-xl'
+        `font-medium transition-all text-lg ${
+          !isActive ? 'opacity-60' : 'opacity-100'
         }`
       }
       to={route.to}

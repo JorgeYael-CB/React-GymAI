@@ -23,7 +23,7 @@ export const NavBarApp = () => {
             isLogged
             ? <>
               <NavLink
-                className={`font-medium text-lg transition-all bg-blue-700 text-white px-4 py-1 rounded-md`}
+                className={`font-medium text-lg transition-all bg-blue-700 text-white px-6 py-1 rounded-md`}
                 to="/dashboard"
               >
                 Panel

@@ -5,12 +5,10 @@ import { GetMessagesUseCase, SendMessageUseCase } from "../../../core";
 import { ModalPayment } from "../../components/modals/ModalPayment";
 
 
-
 interface Message {
   text: string;
   isGpt: boolean;
 }
-
 
 export const AsistenteDashboardApp = () => {
   const { isLogged, token, data } = useContext(AuthContext);
