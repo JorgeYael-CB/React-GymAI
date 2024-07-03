@@ -7,3 +7,5 @@ export * from './messages/send-message.interface';
 
 export * from './messages/get-messages.interface';
 export * from './auth/get-user.interface';
+
+export * from './payments/get-services.interface';
