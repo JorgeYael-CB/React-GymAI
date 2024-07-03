@@ -10,3 +10,5 @@ export * from './use-cases/auth/get-user.use-case';
 
 export * from './use-cases/payments/get-services.use-case';
 export * from './use-cases/payments/create-subscription.use-case';
+
+export * from './use-cases/sport/get-routine.use-case';

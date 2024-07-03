@@ -3,6 +3,7 @@ import { UserDbInterface } from "../../interfaces"
 
 
 export const Config = ({data}: {data: UserDbInterface}) => {
+
   return (
     <div className='border border-gray-400 h-full py-8 rounded-md'>
         <h2 className='text-center text-white font-medium text-4xl'>Config</h2>

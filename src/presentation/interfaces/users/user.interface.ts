@@ -2,6 +2,9 @@ export type roles = 'ADMIN' | 'DEVELOPER' | 'USER' | 'USER_PREMIUM' | 'USER_VIP'
 
 
 export interface UserDbInterface {
+  data: any[],
+  limitRoutineForDay: number,
+  routineDate: any[],
   id: string,
   name: string,
   email: string,
@@ -14,3 +17,4 @@ export interface UserDbInterface {
   coments: any[],
   limitMessage: number
 }
+

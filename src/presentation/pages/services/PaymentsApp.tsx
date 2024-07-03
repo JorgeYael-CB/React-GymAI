@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import { CreateSubscriptionUseCase } from '../../../core';
-import { useContext, useState } from 'react';
+import { CreateSubscriptionUseCase, GetUserUseCase } from '../../../core';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../auth';
 import { envs } from '../../../config';
 import { AlertFormApp, ModalLogin } from '../../components';
@@ -11,11 +11,13 @@ export const PaymentsApp = () => {
   const [showModalLogin, setShowModalLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [messageError, setMessageError] = useState<string | undefined>();
+  const [buyer, setBuyer] = useState(false);
 
 
   const onClick = async() => {
     setIsLoading(true)
-    if( !isLogged || !data || !token ) return setShowModalLogin(true);
+    if( !isLogged || !data || !token) return setShowModalLogin(true);
+    if( buyer ) return;
 
     const res = await CreateSubscriptionUseCase({email: data.email!, name: data.name!, token: token, productId: envs.monthPlanId});
     if( res.error ){
@@ -27,6 +29,23 @@ export const PaymentsApp = () => {
     setMessageError(undefined);
     window.location.href = res.url!;
   }
+
+
+  useEffect(() => {
+    if( !isLogged || !token ) return;
+    setIsLoading(true);
+
+    GetUserUseCase({token})
+      .then( data => {
+        if( data.error ){
+          return setMessageError(messageError);
+        }
+
+        const isBuyer = data.user?.roles.includes('USER_VIP');
+        setBuyer( !!isBuyer );
+        setIsLoading(false);
+      })
+  }, [])
 
 
   return (
@@ -81,12 +100,16 @@ export const PaymentsApp = () => {
               <AlertFormApp content={messageError} error/>
             }
 
-            <button
-              onClick={ onClick }
-              disabled={isLoading}
-              className={`mt-8 bg-blue-700 py-3 text-white font-bold text-xl w-full rounded-lg hover:bg-blue-800 transition duration-300 disabled:opacity-50`}>
-              Iniciar
-            </button>
+            {
+              buyer
+              ? <NavLink className='block w-full bg-white text-black py-2 mt-8 font-semibold' to='/dashboard/gear'>Ver estado de tú suscripción.</NavLink>
+              :<button
+                onClick={ onClick }
+                disabled={ isLoading || buyer }
+                className={`mt-8 bg-blue-700 py-3 text-white font-bold text-xl w-full rounded-lg hover:bg-blue-800 transition duration-300 disabled:opacity-50`}>
+                  Iniciar
+              </button>
+            }
           </div>
         </div>
       </main>

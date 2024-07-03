@@ -19,13 +19,14 @@ export const ConfigDashboardApp = () => {
 
     GetUserUseCase({token: token!})
       .then( data => {
-        if( data.error ){
+        if( data.error || !data.user ){
           setIsLoading(false);
-          return setErrorGetUser(data.error);
+          return setErrorGetUser(data?.error || 'Oops, try again later.');
         }
 
+        console.log(data.user)
         setIsLoading(false);
-        setUserConfig({...data.user!});
+        setUserConfig({...data.user});
       })
   }, []);
 

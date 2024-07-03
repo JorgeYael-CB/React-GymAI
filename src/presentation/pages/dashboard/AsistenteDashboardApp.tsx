@@ -108,7 +108,7 @@ export const AsistenteDashboardApp = () => {
             }
 
             {
-              !isLoadingMessages &&  messages.length <= 0
+              !isLoadingMessages
               &&
               <GptMessage
                 text={`${isLogged
