@@ -1,23 +1,28 @@
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { DatosPersonal, Salud, Objetivos, Disponibilidad } from "./sport";
 import { AuthContext } from "../../auth";
-import { LoginApp } from "../auth/LoginApp";
+import { GetRoutineUseCase } from "../../../core";
+import { AlertFormApp, ModalLogin } from "../../components";
 
 export const SportDashboardApp = () => {
   const { isLogged, token } = useContext(AuthContext);
   const [showModalLogin, setShowModalLogin] = useState(false);
-
+  const [messageError, setMessageError] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [datosPersonales, setDatosPersonales] = useState({
     peso: '',
     edad: '',
-    altura: ''
+    altura: '',
+    year: '',
+    sexo: 'M',
   });
 
   const [objetivos, setObjetivos] = useState({
     objetivo: '',
     actividad: '',
     plazo: '',
+    experience: 'Intermedio',
   });
 
   const [salud, setSalud] = useState({
@@ -32,10 +37,17 @@ export const SportDashboardApp = () => {
     equipamiento: '',
   });
 
-  const onChangeDatosPersonales = (e: ChangeEvent<HTMLInputElement>) => {
+
+
+  const onChangeDatosPersonales = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement> ) => {
     const { value, id } = e.target;
-    if (value.trim().length <= 0) return setDatosPersonales({ ...datosPersonales, [id]: '' });
-    setDatosPersonales({ ...datosPersonales, [id]: +value });
+    if (value.trim().length <= 0) return setDatosPersonales({ ...datosPersonales, [id]: '' })
+
+    if( id !== 'sexo' ){
+      setDatosPersonales({ ...datosPersonales, [id]: +value });
+    } else {
+      setDatosPersonales({ ...datosPersonales, [id]: value });
+    }
   };
 
   const onChangeObjetivos = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -54,11 +66,43 @@ export const SportDashboardApp = () => {
   };
 
 
-  const onSubmit = ( e:FormEvent<HTMLFormElement> ) => {
+  const onSubmit = async( e:FormEvent<HTMLFormElement> ) => {
     e.preventDefault();
-    if( !isLogged ) return setShowModalLogin(true);
+    if( !isLogged || !token ) return setShowModalLogin(true);
+    setIsLoading(true);
 
-    console.log('Si esta logeado');
+    const res = await GetRoutineUseCase({
+      aim: objetivos.objetivo,
+      deport: objetivos.actividad,
+      equipment: disponibilidad.equipamiento,
+      experience: objetivos.experience,
+      height: +datosPersonales.altura,
+      medicalHistory: salud.historialMedico,
+      sexo: datosPersonales.sexo,
+      token,
+      weight: +datosPersonales.peso,
+      year: +datosPersonales.year,
+      availableDaysForWeek: disponibilidad.diasDisponibles,
+      availableTimeForDay: disponibilidad.tempoDisponible,
+      foodRestrictions: salud.restriccionesAlimentarias,
+    });
+
+    if( res.error ){
+      setIsLoading(false);
+      //TODO: manejar errores personalizados
+      return setMessageError(res.error);
+    }
+
+    if (res.pdfUrl) {
+      const link = document.createElement('a');
+      link.href = res.pdfUrl;
+      link.download = 'rutina.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setIsLoading(false);
+      return;
+    }
   }
 
 
@@ -68,7 +112,7 @@ export const SportDashboardApp = () => {
       {
         showModalLogin
         &&
-        <LoginApp/>
+        <ModalLogin onCloseModal={ setShowModalLogin }/>
       }
       <div className="overflow-scroll h-full overflow-x-auto px-4 py-6 bg-gray-100 rounded-md">
         <h2 className="text-center text-3xl font-bold text-indigo-700">Genera tu rutina con SPORT AI</h2>
@@ -103,8 +147,18 @@ export const SportDashboardApp = () => {
           </section>
 
           <div className='flex justify-center'>
-            <button className='px-4 py-2 text-white bg-indigo-600 rounded-md font-semibold w-1/2 mt-16 hover:bg-indigo-800 transition-all'>Recibir Rutina</button>
+            <button
+              disabled={ isLoading }
+              className='disabled:opacity-40 px-4 py-2 text-white bg-indigo-600 rounded-md font-semibold w-1/2 mt-16 hover:bg-indigo-800 transition-all'
+              >Recibir Rutina
+            </button>
           </div>
+
+          {
+            messageError
+            &&
+            <AlertFormApp content={messageError} error/>
+          }
         </form>
       </div>
     </>

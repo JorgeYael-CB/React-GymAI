@@ -57,7 +57,7 @@ export const PaymentsApp = () => {
       }
 
       <main className='mt-36 text-center text-white'>
-        <h1 className='md:text-6xl text-4xl font-bold'>Nuestras suscripciónes</h1>
+        <h1 className='md:text-6xl text-4xl font-bold'>Nuestras servicios.</h1>
         <p className='md:text-base text-sm mt-2'>Elije el plan adecuado para ti, cualquier duda puedes contactar a <NavLink className='text-white underline' to='/support'>Soporte</NavLink> </p>
 
         <div className='my-40 flex justify-center'>

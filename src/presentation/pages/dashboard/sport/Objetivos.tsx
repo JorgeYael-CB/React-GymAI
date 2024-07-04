@@ -4,6 +4,7 @@ interface Props {
   objetivo: string;
   actividad: string;
   plazo: string;
+  experience: string;
 }
 
 type Callback = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
@@ -74,6 +75,20 @@ export const Objetivos = ({ data, callback }: { data: Props, callback: Callback 
             placeholder="Describe tu objetivo"
           />
         )}
+      </div>
+      <div className="flex flex-col gap-2 w-full">
+        <label htmlFor="experience" className="text-gray-700 font-medium">Selecciona tú experiencia</label>
+        <select
+          id="experience"
+          name="experience"
+          onChange={callback}
+          className="text-black font-medium px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          value={data.experience}
+        >
+          <option value="Principiante">Principiante</option>
+          <option value="Intermedio">Intermedio</option>
+          <option value="Avanzado">Avanzado</option>
+        </select>
       </div>
       <div className="flex flex-col gap-2 w-full">
         <label htmlFor="actividad" className="text-gray-700 font-medium">Actividad</label>
