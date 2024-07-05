@@ -1,38 +1,42 @@
-import { NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom";
 import { UserDbInterface } from "../../interfaces"
 
 
+
 export const Config = ({data}: {data: UserDbInterface}) => {
+
+
+  function checkIsBuyer(){
+    return data.roles.includes('USER_VIP');
+  }
+
+
 
   return (
     <div className='border border-gray-400 h-full py-8 rounded-md'>
         <h2 className='text-center text-white font-medium text-4xl'>Config</h2>
 
-        <div className='flex flex-row justify-around mt-20 mb-12 bg-gray-800 py-2'>
-            <div className='flex flex-row gap-4 items-center p-4 rounded-lg shadow-md'>
-              <h3 className='text-lg font-semibold text-gray-300'>Nombre:</h3>
-              <h2 className='rounded-md text-white border border-gray-500 px-6 py-1 font-medium text-sm bg-gray-700'>
-                {data?.name ?? 'Not defined'}
-              </h2>
+        <div
+          className='max-w-5xl mx-auto flex flex-row justify-between px-2'
+        >
+          <div className='rounded-md px-4 py-3 mt-20 bg-indigo-700'>
+            <h2 className='text-center md:text-4xl text-2xl mb-1'>Datos personales</h2>
+            <hr />
+            <div className='mt-3'>
+              <p className='text-base'>Nombre del usuario: <span className='font-bold'>{data.name}</span> </p>
+              <p className='text-base'>Correo de la cuenta: <span className='font-bold'>{data.email}</span> </p>
             </div>
-            <div className='flex flex-row gap-4 items-center p-4 rounded-lg shadow-md'>
-              <h3 className='text-lg font-semibold text-gray-300'>Email: </h3>
-              <h2
-                className='rounded-md text-white border border-gray-500 px-6 py-1 font-medium text-sm bg-gray-700'
-              > {data?.email ?? 'Not defined'} </h2>
+          </div>
+
+          <div className='rounded-md px-4 py-3 mt-20 bg-indigo-700'>
+            <h2 className='text-center md:text-4xl text-2xl mb-1'>Configuracion de la cuenta</h2>
+            <hr />
+            <div className='mt-3'>
+              <p className='text-base'>Cambiar contrasena: <NavLink className='underline' to='#'>Cambiar password</NavLink></p>
+              <p className='text-base'>Correo de la cuenta: <span className='font-bold'>{data.email}</span> </p>
             </div>
-            <div className='flex flex-row gap-4 items-center p-4 rounded-lg shadow-md'>
-              <h3 className='text-lg font-semibold text-gray-300'>Plan: </h3>
-              {
-                data!.roles.includes('USER_VIP')
-                ?<h2
-                    className='rounded-md text-white border border-white px-6 py-1 font-medium text-sm bg-yellow-600'
-                  >
-                  VIP
-                </h2>
-                : <NavLink className='bg-blue-600 text-white rounded-md px-2 py-1 hover:bg-blue-700 transition-all font-semibold' to='/payments'>Comprar Plan</NavLink>
-              }
-            </div>
+          </div>
+
         </div>
       </div>
   )

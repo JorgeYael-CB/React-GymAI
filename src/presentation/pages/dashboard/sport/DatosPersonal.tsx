@@ -56,7 +56,7 @@ export const DatosPersonal = ({ data, callback }: { data: Props, callback: callb
             value={ data.sexo }
             className="text-black font-medium px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           >
-            <option value='H'>M (masculino)</option>
+            <option value='M'>M (masculino)</option>
             <option value='F'>F (femenino)</option>
           </select>
         </div>

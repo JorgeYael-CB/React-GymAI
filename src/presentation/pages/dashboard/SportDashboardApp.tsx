@@ -4,11 +4,25 @@ import { AuthContext } from "../../auth";
 import { GetRoutineUseCase } from "../../../core";
 import { AlertFormApp, ModalLogin } from "../../components";
 
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+
+
+
 export const SportDashboardApp = () => {
   const { isLogged, token } = useContext(AuthContext);
   const [showModalLogin, setShowModalLogin] = useState(false);
   const [messageError, setMessageError] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
+  const [succesRoutine, setSuccesRoutine] = useState(false);
+
 
   const [datosPersonales, setDatosPersonales] = useState({
     peso: '',
@@ -101,6 +115,7 @@ export const SportDashboardApp = () => {
       link.click();
       document.body.removeChild(link);
       setIsLoading(false);
+      setSuccesRoutine(true);
       return;
     }
   }
@@ -109,6 +124,41 @@ export const SportDashboardApp = () => {
 
   return (
     <>
+      {
+        isLoading
+        &&
+        <AlertDialog defaultOpen={isLoading}>
+          <AlertDialogContent className='bg-black text-white'>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Tu rutina se esta generando...</AlertDialogTitle>
+              <AlertDialogDescription>
+                Espere por favor, su rutina esta siendo generada con IA.
+                Modelo: GPT-4o.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+          </AlertDialogContent>
+        </AlertDialog>
+      }
+
+      {
+        succesRoutine
+        &&
+        <AlertDialog defaultOpen={succesRoutine}>
+          <AlertDialogContent className='bg-black text-white'>
+            <AlertDialogHeader>
+              <AlertDialogTitle>La rutina fue generada con exito!</AlertDialogTitle>
+              <AlertDialogDescription>
+                La rutina fue generada de forma exitosa, puedes verla en tu correo electronico 
+                y tambien se debio descargar de forma automatica, cualquier duda puedes contactar a soporte.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      }
+
       {
         showModalLogin
         &&

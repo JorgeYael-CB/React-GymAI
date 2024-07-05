@@ -51,7 +51,7 @@ export const AsistenteDashboardApp = () => {
     // TODO: verificar que sin este logeado
     if( !isLogged ){
       return setShowModalLogin(true);
-    };
+    }
 
     setIsLoading( true );
     setMessages( prevMessages => [...prevMessages, { isGpt: false, text }]);
@@ -66,7 +66,7 @@ export const AsistenteDashboardApp = () => {
         setShowModalPayment(true);
       }
       return setIsLoading(false);
-    };
+    }
 
     setMessages( prevMessages => [...prevMessages, {isGpt: true, text: data.answer!}] );
     setIsLoading(false);
@@ -108,7 +108,7 @@ export const AsistenteDashboardApp = () => {
             }
 
             {
-              !isLoadingMessages
+              !isLoadingMessages && messages.length <= 0
               &&
               <GptMessage
                 text={`${isLogged
